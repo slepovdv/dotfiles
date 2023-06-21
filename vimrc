@@ -42,6 +42,7 @@ Plug 'tpope/vim-surround'
 Plug 'vim-ruby/vim-ruby'
 Plug 'tyru/open-browser.vim'
 Plug 'dag/vim-fish'
+Plug 'folke/tokyonight.nvim'
 
 call plug#end()
 
@@ -112,11 +113,12 @@ endif
 
 " color
 syntax enable
-let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+" let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+" let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 set termguicolors
-let g:gruvbox_contrast_dark = "hard"
-let g:gruvbox_contrast_light = "hard"
+colorscheme tokyonight
+" let g:gruvbox_contrast_dark = "hard"
+" let g:gruvbox_contrast_light = "hard"
 
 " ChangeBackground changes the background mode based on macOS's `Appearance`
 " setting. We also refresh the statusline colors to reflect the new mode.

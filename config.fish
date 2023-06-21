@@ -33,4 +33,17 @@ source ~/.private.fish
 
 set -g fish_user_paths "/usr/local/opt/openssl@1.1/bin" $fish_user_paths
 set -g fish_user_paths "/usr/local/opt/mysql-client/bin" $fish_user_paths
+set -g fish_user_paths "/Users/slepovd/yandex-cloud/bin" $fish_user_paths
+set -g fish_user_paths "/Users/slepovd/bin" $fish_user_paths
 
+starship init fish | source
+
+source /opt/homebrew/opt/asdf/libexec/asdf.fish
+
+if test -d (brew --prefix)"/share/fish/completions"
+    set -gx fish_complete_path $fish_complete_path (brew --prefix)/share/fish/completions
+end
+
+if test -d (brew --prefix)"/share/fish/vendor_completions.d"
+    set -gx fish_complete_path $fish_complete_path (brew --prefix)/share/fish/vendor_completions.d
+end

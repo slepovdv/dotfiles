@@ -1,9 +1,9 @@
 [user]
-	name = Fatih Arslan
-	email = ftharsln@gmail.com
+	name = Denis Slepov
+	email = denis.slepov@flant.com
 
-[includeIf "gitdir:~/Code/ps/"]
-    	path = ~/Code/ps/gitconfig
+[includeIf "gitdir:~/dev/"]
+    	path = ~/dev/gitconfig
 
 [alias]
 	st = status -sb
@@ -39,11 +39,11 @@
 	whitespace=fix,-indent-with-non-tab,trailing-space,cr-at-eol
 	editor = nvim
 	quotepath = false
-	excludesfile = /Users/fatih/.gitignore
+	excludesfile = /Users/slepovd/.gitignore
 [credential]
 	helper = osxkeychain
 [github]
-	user = fatih
+	user = slepovdv
 [mergetool]
 	keepBackup = true
 [filter "media"]

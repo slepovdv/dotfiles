@@ -38,25 +38,33 @@ end
 require("lazy").setup({
 
   -- colorscheme
-  { 
-    "ellisonleao/gruvbox.nvim", 
-    priority = 1000, -- make sure to load this before all the other start plugins
-    config = function ()
-      change_background()
-      require("gruvbox").setup({
-        contrast = "hard"
-      })
-      vim.cmd([[colorscheme gruvbox]])
-    end,
+--  { 
+--    "ellisonleao/gruvbox.nvim", 
+--    priority = 1000, -- make sure to load this before all the other start plugins
+--    config = function ()
+--      change_background()
+--      require("gruvbox").setup({
+--        contrast = "hard"
+--      })
+--      vim.cmd([[colorscheme gruvbox]])
+--    end,
+--  },
+  {
+     "folke/tokyonight.nvim",
+     lazy = false,
+     priority = 1000,
+     opts = {},
+     config = function ()
+       vim.cmd([[colorscheme tokyonight-storm]]) 
+     end,
   },
-
   -- statusline
   { 
     "nvim-lualine/lualine.nvim",
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function ()
       require("lualine").setup({
-        options = { theme = 'gruvbox' },
+        options = { theme = 'tokyonight-storm' },
         sections = {
           lualine_c = {
             {

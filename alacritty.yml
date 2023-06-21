@@ -1,6 +1,6 @@
 # Configuration for Alacritty, the GPU enhanced terminal emulator
 import:
-  - "/Users/fatih/.config/alacritty/color.yml"
+  - "/Users/slepovd/.config/alacritty/color.yml"
 
 # Any items in the `env` entry below will be added as
 # environment variables. Some entries may override variables
@@ -58,21 +58,21 @@ scrolling:
 font:
   # The normal (roman) font face to use.
   normal:
-    family: BerkeleyMono Nerd Font Mono
+    family: Hack Nerd Font Mono
     style: Regular
 
   # The bold font face
   bold:
-    family: BerkeleyMono Nerd Font Mono
+    family: Hack Nerd Font Mono
     style: Bold
 
   # The italic font face
   italic:
-    family: BerkeleyMono Nerd Font Mono
+    family: Hack Nerd Font Mono
     style: Italic
 
   # Point size of the font
-  size: 15.0
+  size: 13.0
 
   # Offset is the extra space around each character. offset.y can be thought of
   # as modifying the linespacing, and offset.x as modifying the letter spacing.
