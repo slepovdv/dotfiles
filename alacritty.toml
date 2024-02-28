@@ -1,4 +1,4 @@
-import = ["/Users/fatih/.config/alacritty/themes/alacritty-gruvbox-light.toml"]
+import = ["/Users/slepovd/.config/alacritty/themes/alacritty-gruvbox-light.toml"]
 live_config_reload = true
 
 [bell]
