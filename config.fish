@@ -1,4 +1,4 @@
-set -gxp PATH $HOME/go/bin /opt/homebrew/bin /usr/local/opt/python@3.9/libexec/bin /usr/local/sbin
+set -gxp PATH /opt/homebrew/bin/ /usr/local/opt/python@3.9/libexec/bin /usr/local/sbin $HOME/go/bin
 set -gx GOBIN $HOME/go/bin
 set -gx EDITOR nvim
 set -gx FZF_CTRL_T_COMMAND nvim
@@ -30,6 +30,7 @@ function __fish_describe_command; end
 # It contains work related stuff, some functions, aliases etc...
 source ~/.private.fish
 
+set -g fish_user_paths "/Users/slepovd/.trdl/repositories/werf/releases/1.2.248/darwin-amd64/bin/" $fish_user_paths
 set -g fish_user_paths "/usr/local/opt/openssl@1.1/bin" $fish_user_paths
 set -g fish_user_paths "/usr/local/opt/mysql-client/bin" $fish_user_paths
 

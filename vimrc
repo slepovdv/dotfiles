@@ -42,6 +42,7 @@ Plug 'tpope/vim-surround'
 Plug 'vim-ruby/vim-ruby'
 Plug 'tyru/open-browser.vim'
 Plug 'dag/vim-fish'
+Plug 'folke/tokyonight.nvim'
 
 call plug#end()
 

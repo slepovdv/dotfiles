@@ -1,10 +1,10 @@
 [user]
-	name = Fatih Arslan
-	email = ftharsln@gmail.com
-
-[includeIf "gitdir:~/Code/ps/"]
-    	path = ~/Code/ps/gitconfig
-
+	name = Denis Slepov
+	email = denis.slepov@flant.com
+[includeIf "gitdir:~/flant/mancala/"]
+  path = ~/.gitconfig-mancala
+[includeIf "gitdir:~/dev/"]
+  path = ~/dev/gitconfig
 [alias]
 	st = status -sb
 	ci = commit
@@ -38,12 +38,16 @@
 [core]
 	whitespace=fix,-indent-with-non-tab,trailing-space,cr-at-eol
 	editor = nvim
+  pager = delta
 	quotepath = false
-	excludesfile = /Users/fatih/.gitignore
+	excludesfile = /Users/slepovd/.gitignore
+	fsmonitor = true
+	untrackedcache = true
+	autocrlf = input
 [credential]
 	helper = osxkeychain
 [github]
-	user = fatih
+	user = slepovdv
 [mergetool]
 	keepBackup = true
 [filter "media"]
@@ -57,3 +61,19 @@
 	rebase = false
 [init]
 	defaultBranch = main
+[status]
+	showuntrackedfiles = all
+[interactive]
+  diffFilter = delta --color-only
+[delta]
+  features = side-by-side line-numbers decorations
+  syntax-theme = Monokai Extended	
+  line-numbers = true
+  plus-color = "#012800"
+  minus-color = "#340001"
+  side-by-side = false
+  whitespace-error-style = 22 reverse
+[delta "decorations"]
+  commit-decoration-style = bold yellow box ul
+  file-style = bold yellow ul
+  file-decoration-style = none
