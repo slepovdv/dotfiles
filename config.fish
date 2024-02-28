@@ -31,12 +31,13 @@ status --is-interactive; and source (jump shell fish | psub)
 # It contains work related stuff, some functions, aliases etc...
 source ~/.private.fish
 
+set -g fish_user_paths "/Users/slepovd/.trdl/repositories/werf/releases/1.2.248/darwin-amd64/bin/" $fish_user_paths
 set -g fish_user_paths "/usr/local/opt/openssl@1.1/bin" $fish_user_paths
 set -g fish_user_paths "/usr/local/opt/mysql-client/bin" $fish_user_paths
 set -g fish_user_paths "/Users/slepovd/yandex-cloud/bin" $fish_user_paths
 set -g fish_user_paths "/Users/slepovd/bin" $fish_user_paths
 
-starship init fish | source
+#starship init fish | source
 
 source /opt/homebrew/opt/asdf/libexec/asdf.fish
 
@@ -47,3 +48,6 @@ end
 if test -d (brew --prefix)"/share/fish/vendor_completions.d"
     set -gx fish_complete_path $fish_complete_path (brew --prefix)/share/fish/vendor_completions.d
 end
+
+# Generated for envman. Do not edit.
+test -s "$HOME/.config/envman/load.fish"; and source "$HOME/.config/envman/load.fish"

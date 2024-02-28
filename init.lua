@@ -38,33 +38,25 @@ end
 require("lazy").setup({
 
   -- colorscheme
---  { 
---    "ellisonleao/gruvbox.nvim", 
---    priority = 1000, -- make sure to load this before all the other start plugins
---    config = function ()
---      change_background()
---      require("gruvbox").setup({
---        contrast = "hard"
---      })
---      vim.cmd([[colorscheme gruvbox]])
---    end,
---  },
-  {
-     "folke/tokyonight.nvim",
-     lazy = false,
-     priority = 1000,
-     opts = {},
-     config = function ()
-       vim.cmd([[colorscheme tokyonight-storm]]) 
-     end,
+  { 
+    "ellisonleao/gruvbox.nvim", 
+    priority = 1000, -- make sure to load this before all the other start plugins
+    config = function ()
+      change_background()
+      require("gruvbox").setup({
+        contrast = "hard"
+      })
+      vim.cmd([[colorscheme gruvbox]])
+    end,
   },
+
   -- statusline
   { 
     "nvim-lualine/lualine.nvim",
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function ()
       require("lualine").setup({
-        options = { theme = 'tokyonight-storm' },
+        options = { theme = 'gruvbox' },
         sections = {
           lualine_c = {
             {
@@ -190,12 +182,8 @@ require("lazy").setup({
     end
   },
 
-  {
-    "bennypowers/splitjoin.nvim",
-    keys = {
-      { 'gJ', function() require'splitjoin'.join() end, desc = 'Join the object under cursor' },
-      { 'gS', function() require'splitjoin'.split() end, desc = 'Split the object under cursor' },
-    },
+  { 
+    "AndrewRadev/splitjoin.vim"
   },
 
   -- fzf extension for telescope with better speed
@@ -433,6 +421,9 @@ require("lazy").setup({
 
   {
     "L3MON4D3/LuaSnip",
+    version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
+    -- install jsregexp (optional!).
+    build = "make install_jsregexp",
     dependencies = { "rafamadriz/friendly-snippets" },
     config = function() 
       require("luasnip.loaders.from_vscode").lazy_load()
@@ -447,10 +438,12 @@ require("lazy").setup({
       "hrsh7th/cmp-buffer",
       "L3MON4D3/LuaSnip",
       "saadparwaiz1/cmp_luasnip",
+      "onsails/lspkind-nvim",
     },
     config = function()
       local cmp = require("cmp")
       local luasnip = require("luasnip")
+      local lspkind = require("lspkind")
       local cmp_autopairs = require("nvim-autopairs.completion.cmp")
 
       cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
@@ -469,6 +462,16 @@ require("lazy").setup({
               luasnip.lsp_expand(args.body)
             end,
         },
+        formatting = {
+          format = lspkind.cmp_format {
+            with_text = true,
+            menu = {
+              buffer = "[Buffer]",
+              nvim_lsp = "[LSP]",
+              nvim_lua = "[Lua]",
+            },
+          },
+        },
         mapping = cmp.mapping.preset.insert {
           ['<C-n>'] = cmp.mapping.select_next_item(),
           ['<C-p>'] = cmp.mapping.select_prev_item(),
@@ -476,10 +479,10 @@ require("lazy").setup({
           ['<C-f>'] = cmp.mapping.scroll_docs(4),
           ['<CR>'] = cmp.mapping.confirm { select = true },
           ['<Tab>'] = cmp.mapping(function(fallback)
-            if luasnip.expand_or_locally_jumpable() then 
-              luasnip.expand_or_jump()
-            elseif cmp.visible() then
+            if cmp.visible() then
               cmp.select_next_item()
+            elseif luasnip.expand_or_locally_jumpable() then 
+              luasnip.expand_or_jump()
             elseif has_words_before() then
               cmp.complete()
             else
@@ -558,7 +561,7 @@ vim.opt.wrap = true
 
 -- This comes first, because we have mappings that depend on leader
 -- With a map leader it's possible to do extra key combinations
--- i.e: <leader>w saves the current filek
+-- i.e: <leader>w saves the current file
 vim.g.mapleader = ','
 
 -- Fast saving
@@ -621,10 +624,6 @@ vim.keymap.set('n', '<Down>', 'gj')
 -- Yanking a line should act like D and C
 vim.keymap.set('n', 'Y', 'y$')
 
--- Visually select lines, and move them up/down
-vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
-vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
-
 -- Terminal
 -- Clost terminal window, even if we are in insert mode
 vim.keymap.set('t', '<leader>q', '<C-\\><C-n>:q<cr>')
@@ -675,6 +674,7 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
 vim.api.nvim_create_autocmd("TermOpen", {
     command = [[setlocal nonumber norelativenumber]]
 })
+
 
 -- git.nvim
 vim.keymap.set('n', '<leader>gb', '<CMD>lua require("git.blame").blame()<CR>')
@@ -731,8 +731,20 @@ vim.api.nvim_create_autocmd('BufWritePre', {
   group = vim.api.nvim_create_augroup('setGoFormatting', { clear = true }),
   pattern = '*.go',
   callback = function()
-    vim.lsp.buf.code_action({ context = { only = { 'source.organizeImports' } }, apply = true, async = false })
-    vim.lsp.buf.format({ async = true })
+    local params = vim.lsp.util.make_range_params()
+    params.context = { only = { "source.organizeImports" } }
+    local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, 2000)
+    for _, res in pairs(result or {}) do
+      for _, r in pairs(res.result or {}) do
+        if r.edit then
+          vim.lsp.util.apply_workspace_edit(r.edit, "utf-16")
+        else
+          vim.lsp.buf.execute_command(r.command)
+        end
+      end
+    end
+  
+    vim.lsp.buf.format()
   end
 })
 
@@ -759,3 +771,34 @@ vim.api.nvim_create_autocmd('LspAttach', {
   end,
 })
 
+-- automatically resize all vim buffers if I resize the terminal window
+vim.api.nvim_command('autocmd VimResized * wincmd =')
+
+-- https://github.com/neovim/neovim/issues/21771
+local exitgroup = vim.api.nvim_create_augroup('setDir', { clear = true })
+vim.api.nvim_create_autocmd('DirChanged', {
+  group = exitgroup,
+  pattern = { '*' },
+  command = [[call chansend(v:stderr, printf("\033]7;file://%s\033\\", v:event.cwd))]],
+})
+
+vim.api.nvim_create_autocmd('VimLeave', {
+  group = exitgroup,
+  pattern = { '*' },
+  command = [[call chansend(v:stderr, "\033]7;\033\\")]],
+})
+
+
+-- put quickfix window always to the bottom
+local qfgroup = vim.api.nvim_create_augroup('changeQuickfix', { clear = true })
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'qf',
+  group = qfgroup,
+  command = 'wincmd J',
+})
+
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'qf',
+  group = qfgroup,
+  command = 'setlocal wrap',
+})

@@ -58,21 +58,21 @@ scrolling:
 font:
   # The normal (roman) font face to use.
   normal:
-    family: Hack Nerd Font Mono
+    family: FiraCode Nerd Font Mono
     style: Regular
 
   # The bold font face
   bold:
-    family: Hack Nerd Font Mono
+    family: FiraCode Nerd Font Mono
     style: Bold
 
   # The italic font face
   italic:
-    family: Hack Nerd Font Mono
+    family: FiraCode Nerd Font Mono
     style: Italic
 
   # Point size of the font
-  size: 13.0
+  size: 14.0
 
   # Offset is the extra space around each character. offset.y can be thought of
   # as modifying the linespacing, and offset.x as modifying the letter spacing.
